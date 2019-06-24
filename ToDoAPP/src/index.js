@@ -1,86 +1,25 @@
 import './style.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
 
-window.id = 1;
+{
+  todos: [{
+    id: 1,
+    text: 'String'
+  }]
+}
 
-const TodoForm = ({addTodo}) => {
-  let input;
+{ type: 'ADD_TODO', text: 'Go to company' }
+{ type: 'REMOVE_TODO', id: 1 }
 
-  return (
-    <div>
-      <input ref={node => {
-        input = node;
-      }} />
-      <button onClick={() => {
-        addTodo(input.value);
-        input.value = '';
-      }}>
-        +
-      </button>
-    </div>
-  );
-};
-
-const Todo = ({ todo, remove }) => {
-  return (<li>
-    {todo.text}
-    <a href="javascript:" onClick={() => remove(todo.id) }>
-      _Delete
-    </a>
-  </li >);
-};
-
-const TodoList = ({ todos, remove }) => {
-  const todoNode = todos.map((todo) => {
-    return (<Todo todo={todo} key={todo.id} remove={remove} />)
-  });
-  return (<ul>{todoNode}</ul>);
-};
-
-const Title = () => {
-  return (
-    <div>
-      <div>
-        <h1>to-do</h1>
-      </div>
-    </div>
-  );
-};
-
-class TodoApp extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      data: []
-    }
-  }
-
-  addTodo = (val) => {
-    const todo = {text: val, id: window.id++}
-    let data = this.state.data;
-    data.push(todo);
-    this.setState({ data });
-  }
-
-  handleRemove = (id) => {
-    const remainder = this.state.data.filter((todo) => {
-      if(todo.id !== id) return todo;
-    });
-    this.setState({ data: remainder });
-  }
-
-  render(){
-    return (
-      <div>
-        <Title />
-        <TodoForm addTodo={ this.addTodo } />
-        <TodoList
-          todos={this.state.data}
-          remove={this.handleRemove}
-        />
-      </div>
-    );
+functions todos(state = [], action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return state.concat([{ text: action.text, id: state.length + 1 }]);
+    case 'REMOVE_TODO':
+      let index = state.findIndex((ele) => ele.id == action.id);
+      return
   }
 }
 
