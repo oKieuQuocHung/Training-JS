@@ -19,7 +19,16 @@ functions todos(state = [], action) {
       return state.concat([{ text: action.text, id: state.length + 1 }]);
     case 'REMOVE_TODO':
       let index = state.findIndex((ele) => ele.id == action.id);
-      return
+      state.splice(index, 1);
+      return state;
+    default:
+      return state;
+  }
+}
+
+function todoApp(state = {}, action) {
+  return {
+    todos: todos(state.todos, action)
   }
 }
 
